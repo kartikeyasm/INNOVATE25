@@ -7,9 +7,6 @@ const { sendResetPasswordEmail } = require("../services/mailer.js"); // Import t
 // Secret key for JWT
 const JWT_SECRET = "jags787"; // Replace with env var in real app
 
-// SIGNUP
-// SIGNUP
-// SIGNUP
 exports.signup = async (req, res) => {
   const { first_name, last_name, email, password } = req.body;
 

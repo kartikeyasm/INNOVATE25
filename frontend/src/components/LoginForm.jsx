@@ -14,7 +14,7 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
+      const response = await axios.post("http://localhost:3000/api/login", {
         email: form.email,
         password: form.password,
       });
@@ -26,7 +26,7 @@ export default function LoginForm() {
       // localStorage.setItem("token", response.data.token);
 
       // Redirect to dashboard or another route
-      navigate("/dashboard"); // change route as needed
+      navigate("/home"); // change route as needed
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Login failed. Please try again.");

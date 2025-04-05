@@ -4,58 +4,46 @@ import axios from 'axios';
 const Found = () => {
   const [formData, setFormData] = useState({
     name: '',
-    photo: null, // changed to file object
     location: '',
     description: '',
   });
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: files ? files[0] : value, // if file input, store file
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const data = new FormData();
-    data.append('name', formData.name);
-    data.append('photo', formData.photo);
-    data.append('location', formData.location);
-    data.append('description', formData.description);
-  
+
     try {
-      const response = await axios.post('/api/found', data, {
+      const response = await axios.post('http://localhost:3000/api/found-request', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
-        timeout: 10000, // optional: wait max 10 seconds
+        timeout: 10000,
       });
-  
-      console.log('✅ Found item submitted successfully:', response.data);
-      alert('✅ Item reported successfully!');
-  
+
+      console.log('Found item submitted successfully:', response.data);
+      alert('Item reported successfully!');
     } catch (error) {
-      console.error('❌ Error submitting found item:', error);
+      console.error('Error submitting found item:', error);
       if (error.code === 'ECONNABORTED' || error.message.includes('Network Error')) {
-        alert('❌ Server is not responding. Please try again later.');
+        alert('Server is not responding. Please try again later.');
       } else {
-        alert('❌ Failed to submit. Please check your input or try again later.');
+        alert('Failed to submit. Please check your input or try again later.');
       }
     } finally {
-      // Reset form in both success and failure
       setFormData({
         name: '',
-        photo: null,
         location: '',
         description: '',
       });
-      document.getElementById('photoInput').value = '';
     }
   };
-  
 
   return (
     <div className="max-w-xl mx-auto bg-white p-6 rounded shadow">
@@ -71,19 +59,6 @@ const Found = () => {
             required
             className="w-full p-2 border rounded"
             placeholder="e.g., Water Bottle, Phone"
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1 font-semibold">Attach Photo</label>
-          <input
-            type="file"
-            name="photo"
-            id="photoInput"
-            accept="image/*"
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded"
           />
         </div>
 
@@ -107,6 +82,7 @@ const Found = () => {
             value={formData.description}
             onChange={handleChange}
             rows={4}
+            required
             className="w-full p-2 border rounded"
             placeholder="Details about the item"
           ></textarea>

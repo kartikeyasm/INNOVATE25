@@ -3,7 +3,6 @@ import { Label, TextInput, Button, Card } from "flowbite-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-
 export default function SignupForm() {
   const [form, setForm] = useState({
     firstName: "",
@@ -24,19 +23,21 @@ export default function SignupForm() {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:5000/api/signup", {
-        firstName: form.firstName,
-        lastName: form.lastName,
+      const response = await axios.post("http://localhost:3000/api/signup", {
+        first_name: form.firstName,
+        last_name: form.lastName,
         email: form.email,
         password: form.password,
       });
-  
+
       console.log("Signup successful:", response.data);
       alert("Signup successful!");
       // Optionally, redirect the user to login or dashboard
     } catch (error) {
       console.error("Signup error:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Signup failed. Please try again.");
+      alert(
+        error.response?.data?.message || "Signup failed. Please try again."
+      );
     }
   };
 
@@ -56,7 +57,11 @@ export default function SignupForm() {
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div className="flex gap-4">
             <div className="w-1/2">
-              <Label htmlFor="firstName" value="First Name" className="text-white mb-1" />
+              <Label
+                htmlFor="firstName"
+                value="First Name"
+                className="text-white mb-1"
+              />
               <TextInput
                 id="firstName"
                 name="firstName"
@@ -67,7 +72,11 @@ export default function SignupForm() {
               />
             </div>
             <div className="w-1/2">
-              <Label htmlFor="lastName" value="Last Name" className="text-white mb-1" />
+              <Label
+                htmlFor="lastName"
+                value="Last Name"
+                className="text-white mb-1"
+              />
               <TextInput
                 id="lastName"
                 name="lastName"
@@ -80,7 +89,11 @@ export default function SignupForm() {
           </div>
 
           <div>
-            <Label htmlFor="email" value="Email address" className="text-white mb-1" />
+            <Label
+              htmlFor="email"
+              value="Email address"
+              className="text-white mb-1"
+            />
             <TextInput
               id="email"
               type="email"
@@ -93,7 +106,11 @@ export default function SignupForm() {
           </div>
 
           <div>
-            <Label htmlFor="password" value="Password" className="text-white mb-1" />
+            <Label
+              htmlFor="password"
+              value="Password"
+              className="text-white mb-1"
+            />
             <TextInput
               id="password"
               type="password"
@@ -106,7 +123,11 @@ export default function SignupForm() {
           </div>
 
           <div>
-            <Label htmlFor="confirmPassword" value="Confirm Password" className="text-white mb-1" />
+            <Label
+              htmlFor="confirmPassword"
+              value="Confirm Password"
+              className="text-white mb-1"
+            />
             <TextInput
               id="confirmPassword"
               type="password"

@@ -3,12 +3,14 @@ require('dotenv').config();
 const app = express();
 const mongoose = require("mongoose");
 const routes = require('./routes/routes.js'); // Ensure this is correct path
+const cors = require('cors');
 
 
 // Define a port
 const PORT = process.env.PORT || 3000;
 
-// Basic route
+// Enable CORS
+app.use(cors());
 app.get("/", (req, res) => {
   res.send("Server is running!");
 });

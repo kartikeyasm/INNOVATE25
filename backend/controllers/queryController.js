@@ -1,5 +1,5 @@
 const ReportRequest = require("../models/reportrequest"); // Import the model
-const FoundItem = require('../models/foundItem');  
+const FoundItem = require("../models/foundItem");
 
 // Function to handle the report creation
 exports.createReport = async (req, res) => {
@@ -42,15 +42,15 @@ exports.createReport = async (req, res) => {
 // Controller function for creating a found item request
 exports.foundRequest = async (req, res) => {
   try {
-    const { name, location, description, submittedBy, photoUrl } = req.body;
+    const { name, location, description } = req.body;
 
     // Create a new found item document
     const foundItem = new FoundItem({
       name,
       location,
       description,
-      submittedBy,
-      photoUrl,  // photoUrl is optional
+
+      // photoUrl,  // photoUrl is optional
     });
 
     // Save the found item to the database
@@ -58,11 +58,11 @@ exports.foundRequest = async (req, res) => {
 
     // Respond with success message and the saved found item
     res.status(201).json({
-      message: 'Found item successfully created',
-      foundItem
+      message: "Found item successfully created",
+      foundItem,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error creating found item' });
+    res.status(500).json({ message: "Error creating found item" });
   }
 };
