@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AICanteen() {
   const [ingredients, setIngredients] = useState("");
+  const navigate = useNavigate(); // navigation hook
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,6 +35,14 @@ export default function AICanteen() {
             Get Recipes & Suggestions
           </button>
         </form>
+
+        {/* Plan Meal Button */}
+        <button
+          onClick={() => navigate("/plan-meal")}
+          className="mt-6 w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition duration-200"
+        >
+          Plan a Meal
+        </button>
       </div>
     </div>
   );

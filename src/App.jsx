@@ -9,6 +9,7 @@ import LostAndFound from "./components/LostAndFound/LostAndFound";
 import Found from "./components/LostAndFound/Found";
 import Lost from "./components/LostAndFound/Lost";
 import NotFound from "./components/LostAndFound/NotFound";
+import PlanMeal from "./components/AI-Canteen/PlanMeal";
 
 /* 
 import ChatPage from "./ChatPage";
@@ -33,6 +34,7 @@ function App() {
         </Route>
 
         <Route path="/ai-canteen" element={<AICanteen />} /> 
+        <Route path="/plan-meal" element={<PlanMeal />} /> 
         {/* <Route path="/chat" element={<ChatPage />} /> */}
       </Route>
     </Routes>
