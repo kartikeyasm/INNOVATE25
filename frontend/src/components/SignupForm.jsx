@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Label, TextInput, Button, Card } from "flowbite-react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 
 export default function SignupForm() {
   const [form, setForm] = useState({
@@ -15,14 +17,27 @@ export default function SignupForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password !== form.confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
-    console.log("Signing up with", form);
-    // Add backend call
+    try {
+      const response = await axios.post("http://localhost:5000/api/signup", {
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        password: form.password,
+      });
+  
+      console.log("Signup successful:", response.data);
+      alert("Signup successful!");
+      // Optionally, redirect the user to login or dashboard
+    } catch (error) {
+      console.error("Signup error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Signup failed. Please try again.");
+    }
   };
 
   return (

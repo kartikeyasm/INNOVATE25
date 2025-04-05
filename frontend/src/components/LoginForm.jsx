@@ -1,18 +1,36 @@
 import { useState } from "react";
 import { Label, TextInput, Button, Card } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
+  const navigate = useNavigate(); // for redirection after login
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Logging in with", form);
-    // Add backend call
+    try {
+      const response = await axios.post("http://localhost:5000/api/login", {
+        email: form.email,
+        password: form.password,
+      });
+
+      console.log("Login successful:", response.data);
+      alert("Login successful!");
+
+      // Optionally store token or user data
+      // localStorage.setItem("token", response.data.token);
+
+      // Redirect to dashboard or another route
+      navigate("/dashboard"); // change route as needed
+    } catch (error) {
+      console.error("Login failed:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Login failed. Please try again.");
+    }
   };
 
   return (
