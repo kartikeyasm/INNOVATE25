@@ -136,17 +136,8 @@ export default function PlanMeal() {
         </div>
 
         {/* Submit Button */}
-        <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+        <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
           Submit
-        </button>
-
-        {/* Navigate to AI-Canteen Button */}
-        <button
-          type="button"
-          onClick={() => navigate("/AI-Canteen")}
-          className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded mt-4"
-        >
-          Go to AI Canteen
         </button>
       </form>
     </div>
