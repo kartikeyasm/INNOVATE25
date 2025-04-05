@@ -5,9 +5,8 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   const cardItems = [
-    { title: "Canteen and Mess Management", description: "Start chatting with your friends", path: "/ai-canteen" },
-    { title: "Lost and Found", description: "Check your friends' location", path: "/lostandfound/lost" },
-    { title: "Automated Scholarship Finder", description: "Manage your connected friends", path: "/groups" },
+    { title: "Canteen and Mess Management", description: "Plan your meals and manage your mess schedule efficiently.", path: "/plan-meal" },
+    { title: "Lost and Found", description: "Report lost items or find something you've misplaced.", path: "/lostandfound/lost" },
   ];
 
   return (

@@ -33,7 +33,6 @@ function App() {
           <Route path="found" element={<Found />} />
         </Route>
 
-        <Route path="/ai-canteen" element={<AICanteen />} /> 
         <Route path="/plan-meal" element={<PlanMeal />} /> 
         {/* <Route path="/chat" element={<ChatPage />} /> */}
       </Route>
