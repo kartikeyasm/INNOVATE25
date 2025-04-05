@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const routes = require('./routes/routes.js'); // Ensure this is correct path
 
+
 // Define a port
 const PORT = process.env.PORT || 3000;
 
