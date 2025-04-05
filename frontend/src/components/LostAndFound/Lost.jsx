@@ -4,11 +4,11 @@ import axios from "axios";
 
 export default function Lost() {
   const [messages, setMessages] = useState([
-    { from: "bot", type: "text", text: "Hi there! What item have you lost?" },
+    { from: "bot", type: "text", text: "Greetings! How can I assist you?" },
   ]);
   const [input, setInput] = useState("");
   const [image, setImage] = useState(null);
-  const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
   const navigate = useNavigate();
 
   const handleSend = async () => {
@@ -29,7 +29,6 @@ export default function Lost() {
         image: image,
       });
 
-      // Assuming backend returns { type: 'text', text: 'response' }
       const botMessage = {
         from: "bot",
         type: res.data.type || "text",
@@ -66,48 +65,56 @@ export default function Lost() {
   };
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
   }, [messages]);
 
   return (
-    <div className="flex justify-between items-start">
-      <button
-        onClick={() => navigate("/lostandfound/not-found")}
-        className="h-10 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-      >
-        Go to Not Found
-      </button>
-
-      <div className="bg-white p-4 rounded shadow-md h-[500px] w-full max-w-md flex flex-col ml-auto">
-        <div className="flex-1 overflow-y-auto mb-4 space-y-2" style={{ minHeight: 0 }}>
+    <div className="min-h-screen flex justify-center  px-4">
+      <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg flex flex-col">
+        <div
+          ref={chatContainerRef}
+          className="mb-4 space-y-3 border border-gray-200 rounded-lg p-3 h-[400px] overflow-y-auto"
+        >
           {messages.map((msg, idx) => (
             <div
               key={idx}
-              className={`flex ${msg.from === "bot" ? "justify-start" : "justify-end"}`}
+              className={`flex ${
+                msg.from === "bot" ? "justify-start" : "justify-end"
+              }`}
             >
               <div
-                className={`p-2 rounded max-w-[75%] ${
+                className={`p-3 rounded-xl max-w-[75%] text-sm shadow-sm ${
                   msg.from === "bot"
-                    ? "bg-gray-200 text-left"
-                    : "bg-blue-500 text-white text-right"
+                    ? "bg-gray-100 text-gray-900"
+                    : "bg-blue-600 text-white"
                 }`}
               >
                 {msg.type === "text" && msg.text}
                 {msg.type === "image" && (
-                  <img src={msg.image} alt="Uploaded" className="rounded w-full h-auto" />
+                  <img
+                    src={msg.image}
+                    alt="Uploaded"
+                    className="rounded w-48 h-auto mt-2"
+                  />
                 )}
                 {msg.type === "composite" && (
                   <div>
                     {msg.text && <p className="mb-2">{msg.text}</p>}
                     {msg.image && (
-                      <img src={msg.image} alt="Uploaded" className="rounded w-full h-auto" />
+                      <img
+                        src={msg.image}
+                        alt="Uploaded"
+                        className="rounded w-48 h-auto"
+                      />
                     )}
                   </div>
                 )}
               </div>
             </div>
           ))}
-          <div ref={messagesEndRef} />
         </div>
 
         <div className="flex gap-2">
@@ -115,7 +122,7 @@ export default function Lost() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="flex-1 p-2 border rounded"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
             placeholder="Describe your lost item..."
           />
 
@@ -129,10 +136,10 @@ export default function Lost() {
 
           <label
             htmlFor="file-upload"
-            className={`cursor-pointer px-3 py-2 rounded transition text-sm flex items-center justify-center ${
+            className={`cursor-pointer px-3 py-2 rounded-xl text-sm transition ${
               image
-                ? "bg-green-200 text-green-800 hover:bg-green-300"
-                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                ? "bg-green-100 text-green-800 hover:bg-green-200"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
             title={image ? "Image attached" : "Attach Image"}
           >
@@ -141,7 +148,7 @@ export default function Lost() {
 
           <button
             onClick={handleSend}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 text-sm"
           >
             Send
           </button>
