@@ -25,7 +25,7 @@ function App() {
       
       {/* All authenticated pages wrapped with layout */}
       <Route element={<Layout />}>
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         
         <Route path="/lostandfound" element={<LostAndFound />} >
           <Route path="not-found" element={<NotFound />} />

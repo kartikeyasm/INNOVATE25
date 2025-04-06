@@ -6,7 +6,7 @@ export default function HomePage() {
 
   const cardItems = [
     {
-      title: "Canteen and Mess Management",
+      title: "Mess Management",
       description: "Plan your meals and manage your mess schedule efficiently.",
       path: "/plan-meal",
     },

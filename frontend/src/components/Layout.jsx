@@ -15,7 +15,7 @@ export default function Layout() {
     <div className="min-h-screen bg-white">
       {/* Fixed Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md shadow-md px-6 py-4 flex justify-between items-center">
-        <Link to="/home" className="flex items-center">
+        <Link to="/" className="flex items-center">
           {/* React Icon as Logo */}
           <FaHome className="h-12 w-auto text-blue-500 cursor-pointer" />{" "}
           {/* Logo icon */}

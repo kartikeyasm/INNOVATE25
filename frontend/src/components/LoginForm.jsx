@@ -26,7 +26,7 @@ export default function LoginForm() {
       // localStorage.setItem("token", response.data.token);
 
       // Redirect to dashboard or another route
-      navigate("/home"); // change route as needed
+      navigate("/"); // change route as needed
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Login failed. Please try again.");
