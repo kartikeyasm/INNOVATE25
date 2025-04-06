@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Object Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .upload-form {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .result-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Object Search</h1>
+    
+    <div class="upload-form">
+        <h2>Upload Image</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="image" accept=".jpg,.jpeg,.png" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div id="results" class="results"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>Searching...</p>';
+            
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.results) {
+                    resultsDiv.innerHTML = '<h2>Results:</h2>';
+                    if (data.results.length === 0) {
+                        resultsDiv.innerHTML += '<p>No matches found</p>';
+                    } else {
+                        data.results.forEach(result => {
+                            resultsDiv.innerHTML += `
+                                <div class="result-item">
+                                    <p>🎞 Video Number: ${result.video_number}</p>
+                                    <p>🕒 Timestamp: ${result.timestamp} seconds</p>
+                                    <p>📊 Similarity: ${(result.similarity * 100).toFixed(2)}%</p>
+                                </div>
+                            `;
+                        });
+                    }
+                } else {
+                    resultsDiv.innerHTML = `<p style="color: red;">Error: ${data.error || 'Unknown error'}</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

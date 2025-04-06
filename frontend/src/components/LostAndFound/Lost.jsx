@@ -24,20 +24,16 @@ export default function Lost() {
     setMessages((prev) => [...prev, userMessage]);
 
     try {
-      const response = await axios.post("http://127.0.0.1:5000/upload", {
+      const res = await axios.post("/api/lost", {
         text: input.trim(),
-        image: image, // This will be the base64 string
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        image: image,
       });
 
       const botMessage = {
         from: "bot",
-        type: "results",
-        text: `Found ${response.data.results.length} matching results`,
-        results: response.data.results
+        type: res.data.type || "text",
+        text: res.data.text,
+        image: res.data.image || null,
       };
 
       setMessages((prev) => [...prev, botMessage]);
@@ -56,7 +52,6 @@ export default function Lost() {
     setInput("");
     setImage(null);
   };
-
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -77,11 +72,15 @@ export default function Lost() {
   }, [messages]);
 
   return (
-    <div className="min-h-screen flex justify-center  px-4">
-      <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg flex flex-col">
+    <main className="min-h-screen bg-gradient-to-br from-blue-400 via-indigo-500 to-purple-600 flex justify-center items-center px-4 py-10">
+      <div className="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-lg flex flex-col">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+          Report Lost Item
+        </h2>
+
         <div
           ref={chatContainerRef}
-          className="mb-4 space-y-3 border border-gray-200 rounded-lg p-3 h-[400px] overflow-y-auto"
+          className="mb-4 space-y-3 border border-gray-200 rounded-xl p-4 h-[400px] overflow-y-auto bg-gray-50"
         >
           {messages.map((msg, idx) => (
             <div
@@ -91,10 +90,10 @@ export default function Lost() {
               }`}
             >
               <div
-                className={`p-3 rounded-xl max-w-[75%] text-sm shadow-sm ${
+                className={`p-3 rounded-2xl max-w-[75%] text-sm shadow ${
                   msg.from === "bot"
-                    ? "bg-gray-100 text-gray-900"
-                    : "bg-blue-600 text-white"
+                    ? "bg-gray-200 text-gray-800"
+                    : "bg-indigo-600 text-white"
                 }`}
               >
                 {msg.type === "text" && msg.text}
@@ -102,7 +101,7 @@ export default function Lost() {
                   <img
                     src={msg.image}
                     alt="Uploaded"
-                    className="rounded w-48 h-auto mt-2"
+                    className="rounded mt-2 w-48 h-auto"
                   />
                 )}
                 {msg.type === "composite" && (
@@ -122,12 +121,12 @@ export default function Lost() {
           ))}
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm"
             placeholder="Describe your lost item..."
           />
 
@@ -138,12 +137,11 @@ export default function Lost() {
             onChange={handleImageChange}
             className="hidden"
           />
-
           <label
             htmlFor="file-upload"
-            className={`cursor-pointer px-3 py-2 rounded-xl text-sm transition ${
+            className={`cursor-pointer px-3 py-2 rounded-xl text-sm font-medium transition ${
               image
-                ? "bg-green-100 text-green-800 hover:bg-green-200"
+                ? "bg-green-100 text-green-700 hover:bg-green-200"
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
             title={image ? "Image attached" : "Attach Image"}
@@ -153,12 +151,12 @@ export default function Lost() {
 
           <button
             onClick={handleSend}
-            className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 text-sm"
+            className="bg-indigo-600 text-white px-4 py-2 rounded-xl hover:bg-indigo-700 transition text-sm"
           >
             Send
           </button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
