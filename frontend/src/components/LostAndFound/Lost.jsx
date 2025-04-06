@@ -24,16 +24,20 @@ export default function Lost() {
     setMessages((prev) => [...prev, userMessage]);
 
     try {
-      const res = await axios.post("/api/lost", {
+      const response = await axios.post("http://127.0.0.1:5000/upload", {
         text: input.trim(),
-        image: image,
+        image: image, // This will be the base64 string
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
 
       const botMessage = {
         from: "bot",
-        type: res.data.type || "text",
-        text: res.data.text,
-        image: res.data.image || null,
+        type: "results",
+        text: `Found ${response.data.results.length} matching results`,
+        results: response.data.results
       };
 
       setMessages((prev) => [...prev, botMessage]);
@@ -52,6 +56,7 @@ export default function Lost() {
     setInput("");
     setImage(null);
   };
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
