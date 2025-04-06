@@ -18,7 +18,7 @@ app.use(express.json()); // to parse JSON data
 
 app.use('/api', routes); // Ensure '/api' prefix is added
 
-const uri = process.env.MONGODB_URI 
+const uri = process.env.MONGODB_URI || "mongodb+srv://jagritjain787:Rnxsw1A40JINrv0I@cluster0.hli27ts.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 mongoose
   .connect(uri)
   .then(() => console.log("Connected to MongoDB via Mongoose"))
