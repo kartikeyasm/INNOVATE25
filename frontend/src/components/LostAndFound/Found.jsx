@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const Found = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    location: '',
-    description: '',
+    name: "",
+    location: "",
+    description: "",
   });
 
   const handleChange = (e) => {
@@ -20,27 +20,34 @@ const Found = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/api/found-request', formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        timeout: 10000,
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/found-request",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          timeout: 10000,
+        }
+      );
 
-      console.log('Found item submitted successfully:', response.data);
-      alert('Item reported successfully!');
+      console.log("Found item submitted successfully:", response.data);
+      alert("Item reported successfully!");
     } catch (error) {
-      console.error('Error submitting found item:', error);
-      if (error.code === 'ECONNABORTED' || error.message.includes('Network Error')) {
-        alert('Server is not responding. Please try again later.');
+      console.error("Error submitting found item:", error);
+      if (
+        error.code === "ECONNABORTED" ||
+        error.message.includes("Network Error")
+      ) {
+        alert("Server is not responding. Please try again later.");
       } else {
-        alert('Failed to submit. Please check your input or try again later.');
+        alert("Failed to submit. Please check your input or try again later.");
       }
     } finally {
       setFormData({
-        name: '',
-        location: '',
-        description: '',
+        name: "",
+        location: "",
+        description: "",
       });
     }
   };
